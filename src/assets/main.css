@@ -33,3 +33,9 @@ a,
     padding: 0 2rem;
   }
 }
+
+.box {
+  outline: 5px solid #444444;
+  margin: 10px;
+  padding: 10px;
+}
