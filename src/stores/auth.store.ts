@@ -11,8 +11,8 @@ export interface AuthState {
   ships: any[] | null
 }
 
-export const authStore = defineStore('auth', {
-  state: () => ({
+export const useAuthStore = defineStore('auth', {
+  state: (): AuthState => ({
     agentToken: null,
     agent: null,
     contracts: null,
@@ -22,21 +22,26 @@ export const authStore = defineStore('auth', {
   actions: {
     async registerAgent(symbol: string, faction: Faction) {
       try {
-        const agentData = await AuthService.registerAgent(symbol, faction);
-        this.agentToken = agentData.token;
-        this.agent = agentData.user;
-        this.contracts = agentData.contracts;
-        this.faction = agentData.user.faction;
-        this.ships = agentData.user.ships;
+        const response = await AuthService.registerAgent(symbol, faction);
+        if(response.data) {
+          this.agentToken = response.data.token;
+          this.agent = response.data.user;
+          this.contracts = response.data.contracts;
+          this.faction = response.data.user.faction;
+          this.ships = response.data.user.ships;
+        }
       }
       catch (error) {
         console.log(error);
       }
     },
-    async login(agentToken: string) {
+    async getAgent(token: string) {
       try {
-        const agentData = await AuthService.login(agentToken);
-        this.agent = agentData.user;
+        const response = await AuthService.getAgent(token);
+        console.log('response: ', response.data.data);
+        if(response.data) {
+          this.agent = response.data.data;
+        }
       }
       catch (error) {
         console.log(error);

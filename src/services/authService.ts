@@ -7,9 +7,7 @@ export class AuthService {
       faction: faction,
     });
   }
-  public static async login(agentToken: string) {
-    return await API.getAgent({
-      token: agentToken,
-    });
+  public static async getAgent(token: string) {
+    return await API.getAgent(token);
   }
 }
