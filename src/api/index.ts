@@ -1,5 +1,6 @@
-import {POST} from './request';
+import {GET, POST} from './request';
 
 export const API = {
-  registerAgent: (params: any) => POST('register', params),
+  getAgent: (params: {token: string}) => GET('my/agent', params),
+  registerAgent: (params: {faction: string, symbol: string}) => POST('register', params),
 }

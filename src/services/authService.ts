@@ -1,16 +1,15 @@
 import {API} from "@/api";
 
 export class AuthService {
-  public static async registerAgent(callSign: string, faction: string) {
+  public static async registerAgent(symbol: string, faction: string) {
     return await API.registerAgent({
-      symbol: callSign,
+      symbol: symbol,
       faction: faction,
     });
   }
   public static async login(agentToken: string) {
-    return await API.registerAgent({
-      symbol: callSign,
-      faction: faction,
+    return await API.getAgent({
+      token: agentToken,
     });
   }
 }
