@@ -8,7 +8,7 @@
         <Register @agentRegisterSubmit="registerAgent"/>
       </div>
     </div>
-    <div v-else-if="showRegisterMessage">
+    <div v-if="showRegisterMessage">
       <h1>Nice to meet you Agent {{ this.authStore.agent.symbol }}</h1>
       <h2>This is your Agent Token. You will need it to log in again, so save it somewhere safe.</h2>
       <div class="box break-word-wrap">
@@ -16,8 +16,11 @@
         <h3>{{ this.authStore.agentToken }}</h3>
       </div>
     </div>
-    <div v-else-if="showLoginMessage">
+    <div v-if="showLoginMessage">
       <h1>Welcome back Agent {{ this.authStore.agent.symbol }}.</h1>
+    </div>
+    <div v-if="errorMessage">
+      <h1 class="error-text">{{ errorMessage }}</h1>
     </div>
   </main>
 </template>
@@ -34,21 +37,26 @@ export default {
   methods: {
     async getAgent(token) {
       await this.authStore.getAgent(token);
-      this.showAuthOptions = false;
-      this.showLoginMessage = true;
+      if(this.authStore.agentToken){
+        this.showAuthOptions = false;
+        this.showLoginMessage = true;
+      }
     },
     async registerAgent(registerData) {
       await this.authStore.registerAgent(
         registerData.symbol,
         registerData.faction
       );
-      this.showAuthOptions = false;
-      this.showRegisterMessage = true;
+      if(this.authStore.agentToken){
+        this.showAuthOptions = false;
+        this.showRegisterMessage = true;
+      }
     },
   },
   data() {
     return {
       authStore: useAuthStore(),
+      errorMessage: null,
       message: '',
       showAuthOptions: true,
       showRegisterMessage: false,

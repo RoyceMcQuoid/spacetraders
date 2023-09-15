@@ -40,3 +40,9 @@ a,
   padding: 16px;
   border-radius: 3px;
 }
+
+.error-text {
+  color: red;
+  text-underline: red;
+  text-underline-style: wave;
+}
