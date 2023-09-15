@@ -23,6 +23,35 @@ export interface Ship {
   fuel: ShipFuel,
 }
 
+export class ShipObject implements Ship {
+
+
+  constructor(cargo: Cargo, crew: ShipCrew, engine: ShipEngine, frame: ShipFrame, fuel: ShipFuel, modules: ShipModule[], mounts: ShipMount[], nav: ShipNav, reactor: ShipReactor, registration: ShipRegistration, symbol: string) {
+    this.cargo = cargo;
+    this.crew = crew;
+    this.engine = engine;
+    this.frame = frame;
+    this.fuel = fuel;
+    this.modules = modules;
+    this.mounts = mounts;
+    this.nav = nav;
+    this.reactor = reactor;
+    this.registration = registration;
+    this.symbol = symbol;
+  }
+
+  cargo: Cargo;
+  crew: ShipCrew;
+  engine: ShipEngine;
+  frame: ShipFrame;
+  fuel: ShipFuel;
+  modules: ShipModule[];
+  mounts: ShipMount[];
+  nav: ShipNav;
+  reactor: ShipReactor;
+  registration: ShipRegistration;
+  symbol: string;
+}
 
 
 

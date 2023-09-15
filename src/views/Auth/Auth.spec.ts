@@ -25,6 +25,7 @@ describe('Auth', () => {
   it('displays welcome after logging in', () => {
     const wrapper = mount(Auth)
     const tokenInput = wrapper.findComponent('[data-testid="login-token-input"]');
+    expect(tokenInput.exists()).toBe(true);
     const loginButton = wrapper.findComponent('[data-testid="login-submit-button"]');
 
 
@@ -33,5 +34,5 @@ describe('Auth', () => {
     tokenInput.setValue('testToken');
     loginButton.trigger('click');
     expect(wrapper.text()).toContain(`${AUTH.WELCOME_BACK_MESSAGE} ${testAgent.symbol}`);
-  })
+  });
 })
