@@ -18,14 +18,6 @@ export const useAuthStore = defineStore('auth', {
     faction: null,
     ships: null
   }),
-  actions: {
-    saveAgentRegistration(registrationData) {
-      this.agentToken = registrationData.token;
-      this.agent = registrationData.user;
-      this.contracts = registrationData.contracts;
-      this.faction = registrationData.user.faction;
-      this.ships = registrationData.user.ships;
-    }
-  }
+  actions: {}
 
 });
