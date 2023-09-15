@@ -4,7 +4,7 @@
     <label class="login-label" for="date-range-start-date">Token:</label>
     <input
       class="token-input"
-      v-model="this.token"/>
+      v-model="token"/>
     <button
       :disabled="!token"
       @click="submit"
@@ -14,42 +14,34 @@
   </div>
 </template>
 
-<script>
+<script  setup lang="ts">
 import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
+import {ref} from "vue";
 
-export default {
-  name: 'Login',
-  methods: {
-    async submit() {
-      try {
-        const response = await AuthService.getAgent(this.token);
-        if(response.error) {
-          this.$emit('error', response.error.message);
-          return;
-        }
-        if(response.data) {
-          this.authStore.token = this.token;
-          this.authStore.agent = response.data.data;
-          this.$emit('loggedIn');
-          return;
-        }
-      }
-      catch (error) {
-        console.log(`Errored on getAgent: `, error);
-        this.$emit('error', error.message);
-        return;
-      }
-      this.$emit('error', "Invalid token");
-    },
-  },
-  data() {
-    return {
-      authStore: useAuthStore(),
-      token: '',
-    };
-  },
+const emit = defineEmits(['loggedIn', 'error']);
+const authStore = useAuthStore();
+const token = ref<string>('');
+
+async function submit() {
+  try {
+    const response = await AuthService.getAgent(token.value);
+    if(response.data.error) {
+      emit('error', response.data.error.message);
+      return;
+    }
+    authStore.agentToken = token.value;
+    authStore.agent = response.data.data;
+    emit('loggedIn');
+    return;
+  }
+  catch (error) {
+    console.log(`Errored on getAgent: `, error);
+    emit('error', error);
+    return;
+  }
 }
+
 </script>
 
 <style scoped>
