@@ -9,9 +9,9 @@
     </div>
     <div>
       <label class="login-label" for="date-range-start-date">Faction: </label>
-      <input
-        class="token-input"
-        v-model="faction"/>
+      <select @change="changeFaction">
+        <option v-for="faction in factions" :key="faction" :value="faction">{{ faction }}</option>
+      </select>
     </div>
     <button
       :disabled="!symbol || !faction"
@@ -26,11 +26,17 @@
 import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
 import {ref} from "vue";
+import {FactionSymbol} from "@/models/Faction";
 
 const emit = defineEmits(['registered', 'error']);
 const authStore = useAuthStore();
 const symbol = ref<string>('');
 const faction = ref<string>('');
+const factions = ref<string[]>(Object.values(FactionSymbol));
+
+function changeFaction(event: any) {
+  faction.value = event.target.value;
+}
 
 async function submit() {
   try {
