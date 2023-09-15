@@ -15,15 +15,15 @@
       </div>
     </div>
     <div v-if="showRegisterMessage">
-      <h1>Nice to meet you Agent {{ this.authStore.agent.symbol }}</h1>
+      <h1>Nice to meet you Agent {{ agentName }}</h1>
       <h2>This is your Agent Token. You will need it to log in again, so save it somewhere safe.</h2>
       <div class="box break-word-wrap">
         <h2>Token:</h2>
-        <h3>{{ this.authStore.agentToken }}</h3>
+        <h3>{{ authStore.agentToken }}</h3>
       </div>
     </div>
     <div v-if="showLoginMessage">
-      <h1>Welcome back Agent {{ this.authStore.agent.symbol }}.</h1>
+      <h1>Welcome back Agent {{ agentName }}.</h1>
     </div>
     <div v-if="showRegisterMessage || showLoginMessage" >
       <button
@@ -38,44 +38,40 @@
   </main>
 </template>
 
-<script>
-import Login from '@/components/Login.vue'
+<script setup lang="ts">
 import {useAuthStore} from "@/stores/auth.store";
+import Login from '@/components/Login.vue'
 import Register from "@/components/Register.vue";
+import {ref} from "vue";
+import { computed } from 'vue'
+import router from "@/router";
 
-export default {
-  name: 'Auth',
-  title: 'StarTraders',
-  components: {Register, Login},
-  methods: {
-    handleError(error) {
-      this.errorMessage = error;
-    },
-    loggedIn() {
-      this.errorMessage = null;
-      this.showAuthOptions = false;
-      this.showLoginMessage = true;
-    },
-    registered() {
-      this.errorMessage = null;
-      this.showAuthOptions = false;
-      this.showRegisterMessage = true;
-    },
-    startButtonClicked() {
-      this.$router.push({name: 'home'});
-    }
-  },
-  data() {
-    return {
-      authStore: useAuthStore(),
-      errorMessage: null,
-      devMessage: null,
-      message: '',
-      showAuthOptions: true,
-      showRegisterMessage: false,
-      showLoginMessage: false,
-    };
-  },
+
+const authStore = useAuthStore();
+const agentName = computed<string | null>(() => authStore.agent.symbol);
+const errorMessage = ref<string | null>(null);
+const showAuthOptions = ref<boolean>(true);
+const showRegisterMessage = ref<boolean>(false);
+const showLoginMessage = ref<boolean>(false);
+
+function handleError(error: string) {
+  errorMessage.value = error;
+}
+
+function loggedIn() {
+  errorMessage.value = null;
+  showAuthOptions.value = false;
+  showLoginMessage.value = true;
+}
+
+function registered() {
+  errorMessage.value = null;
+  showAuthOptions.value = false;
+  showRegisterMessage.value = true;
+}
+
+function startButtonClicked() {
+  router.push({name: 'home'});
 }
 </script>
 
