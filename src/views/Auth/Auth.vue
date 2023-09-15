@@ -1,7 +1,7 @@
 <template>
   <main>
     <div v-if="showAuthOptions">
-      <h1 style="text-align: center;">Let's get started!</h1>
+      <h1 style="text-align: center;">{{ AUTH.INVITE_MESSAGE }}</h1>
       <div class="flex">
         <Login
           @loggedIn="loggedIn"
@@ -40,11 +40,12 @@
 
 <script setup lang="ts">
 import {useAuthStore} from "@/stores/auth.store";
-import Login from '@/components/Login.vue'
+import Login from '@/components/Login/Login.vue'
 import Register from "@/components/Register.vue";
 import {ref} from "vue";
 import { computed } from 'vue'
 import router from "@/router";
+import {AUTH} from "@/constants/views/Auth";
 
 
 const authStore = useAuthStore();

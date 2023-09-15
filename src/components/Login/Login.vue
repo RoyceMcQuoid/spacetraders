@@ -3,9 +3,11 @@
     <h1>Login</h1>
     <label class="login-label" for="date-range-start-date">Token:</label>
     <input
-      class="token-input"
+      class="login-token-input"
+      data-testid="login-token-input"
       v-model="token"/>
     <button
+      class="login-submit-button"
       :disabled="!token"
       @click="submit"
     >
@@ -45,7 +47,7 @@ async function submit() {
 </script>
 
 <style scoped>
-.token-input {
+.login-token-input {
   width: 100%;
   max-width: 400px;
   padding: 1rem;
