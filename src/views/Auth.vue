@@ -25,6 +25,13 @@
     <div v-if="showLoginMessage">
       <h1>Welcome back Agent {{ this.authStore.agent.symbol }}.</h1>
     </div>
+    <div v-if="showRegisterMessage || showLoginMessage" >
+      <button
+        @click="startButtonClicked"
+      >
+        Let's Go!
+      </button>
+    </div>
     <div v-if="errorMessage">
       <h1 class="error-text">{{ errorMessage }}</h1>
     </div>
@@ -54,6 +61,9 @@ export default {
       this.showAuthOptions = false;
       this.showRegisterMessage = true;
     },
+    startButtonClicked() {
+      this.$router.push({name: 'home'});
+    }
   },
   data() {
     return {
