@@ -8,7 +8,10 @@
           @error="handleError"
         />
         <h1>Or</h1>
-        <Register @agentRegisterSubmit="registerAgent"/>
+        <Register
+          @registered="registered"
+          @error="handleError"
+        />
       </div>
     </div>
     <div v-if="showRegisterMessage">
@@ -38,23 +41,18 @@ export default {
   title: 'StarTraders',
   components: {Register, Login},
   methods: {
+    handleError(error) {
+      this.errorMessage = error;
+    },
     loggedIn() {
       this.errorMessage = null;
       this.showAuthOptions = false;
       this.showLoginMessage = true;
     },
-    handleError(error) {
-      this.errorMessage = error;
-    },
-    async registerAgent(registerData) {
-      await this.authStore.registerAgent(
-        registerData.symbol,
-        registerData.faction
-      );
-      if(this.authStore.agentToken){
-        this.showAuthOptions = false;
-        this.showRegisterMessage = true;
-      }
+    registered() {
+      this.errorMessage = null;
+      this.showAuthOptions = false;
+      this.showRegisterMessage = true;
     },
   },
   data() {

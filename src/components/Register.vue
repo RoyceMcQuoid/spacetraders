@@ -23,19 +23,38 @@
 </template>
 
 <script>
+import {AuthService} from "@/services/authService";
+import {useAuthStore} from "@/stores/auth.store";
+
 export default {
   name: 'Register',
   methods: {
     async submit() {
-      this.$emit('agentRegisterSubmit',
-        {symbol: this.symbol, faction: this.faction}
-      );
+      try {
+        const response = await AuthService.registerAgent(this.symbol, this.faction);
+        if(response.error) {
+          this.$emit('error', response.error.message);
+          return;
+        }
+        if(response.data) {
+          this.authStore.saveAgentRegistration(response.data.data);
+          this.$emit('registered');
+          return;
+        }
+      }
+      catch (error) {
+        console.log(`Errored on registerAgent: `, error);
+        this.$emit('error', error.message);
+        return;
+      }
+      this.$emit('error', "Invalid Registration");
     },
   },
   data() {
     return {
-      token: null,
+      authStore: useAuthStore(),
       faction: null,
+      symbol: null,
     };
   },
 }
