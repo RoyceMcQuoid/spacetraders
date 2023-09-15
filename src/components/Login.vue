@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script  setup lang="ts">
+<script setup lang="ts">
 import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
 import {ref} from "vue";
