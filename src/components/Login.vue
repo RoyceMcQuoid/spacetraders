@@ -31,7 +31,7 @@ export default {
         if(response.data) {
           this.authStore.token = this.token;
           this.authStore.agent = response.data.data;
-          this.$emit('loggedIn', this.token);
+          this.$emit('loggedIn');
           return;
         }
       }
