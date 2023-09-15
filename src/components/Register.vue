@@ -5,16 +5,16 @@
       <label class="login-label" for="date-range-start-date">Agent Name: </label>
       <input
         class="token-input"
-        v-model="this.symbol"/>
+        v-model="symbol"/>
     </div>
     <div>
       <label class="login-label" for="date-range-start-date">Faction: </label>
       <input
         class="token-input"
-        v-model="this.faction"/>
+        v-model="faction"/>
     </div>
     <button
-      :disabled="!token || !faction"
+      :disabled="!symbol || !faction"
       @click="submit"
     >
       Submit
@@ -22,41 +22,39 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
+import {ref} from "vue";
 
-export default {
-  name: 'Register',
-  methods: {
-    async submit() {
-      try {
-        const response = await AuthService.registerAgent(this.symbol, this.faction);
-        if(response.error) {
-          this.$emit('error', response.error.message);
-          return;
-        }
-        if(response.data) {
-          this.authStore.saveAgentRegistration(response.data.data);
-          this.$emit('registered');
-          return;
-        }
-      }
-      catch (error) {
-        console.log(`Errored on registerAgent: `, error);
-        this.$emit('error', error.message);
-        return;
-      }
-      this.$emit('error', "Invalid Registration");
-    },
-  },
-  data() {
-    return {
-      authStore: useAuthStore(),
-      faction: null,
-      symbol: null,
-    };
-  },
+const emit = defineEmits(['registered', 'error']);
+const authStore = useAuthStore();
+const symbol = ref<string>('');
+const faction = ref<string>('');
+
+async function submit() {
+  try {
+    const response = await AuthService.registerAgent(symbol.value, faction.value);
+    if(response.data.error) {
+      emit('error', response.data.error.message);
+      return;
+    }
+    if(response.data) {
+      authStore.agentToken = response.data.data.token;
+      authStore.agent = response.data.data.agent;
+      authStore.contracts = response.data.data.contracts;
+      authStore.faction = response.data.data.agent.faction;
+      authStore.ships = response.data.data.agent.ships;
+      emit('registered');
+      return;
+    }
+  }
+  catch (error) {
+    console.log(`Errored on registerAgent: `, error);
+    emit('error', error);
+    return;
+  }
+  emit('error', "Invalid Registration");
 }
 </script>
 
