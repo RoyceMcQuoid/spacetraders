@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async getAgent(token: string) {
       try {
+        this.agentToken = token;
         const response = await AuthService.getAgent(token);
         console.log('response: ', response.data.data);
         if(response.data) {

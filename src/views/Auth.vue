@@ -11,7 +11,7 @@
     <div v-else-if="showRegisterMessage">
       <h1>Nice to meet you Agent {{ this.authStore.agent.symbol }}</h1>
       <h2>This is your Agent Token. You will need it to log in again, so save it somewhere safe.</h2>
-      <div class="box">
+      <div class="box break-word-wrap">
         <h2>Token:</h2>
         <h3>{{ this.authStore.agentToken }}</h3>
       </div>
@@ -35,7 +35,7 @@ export default {
     async getAgent(token) {
       await this.authStore.getAgent(token);
       this.showAuthOptions = false;
-      this.showRegisterMessage = true;
+      this.showLoginMessage = true;
     },
     async registerAgent(registerData) {
       await this.authStore.registerAgent(
@@ -62,5 +62,9 @@ export default {
 .flex{
   display: flex;
   align-items: center;
+}
+
+.break-word-wrap{
+  overflow-wrap: break-word;
 }
 </style>
