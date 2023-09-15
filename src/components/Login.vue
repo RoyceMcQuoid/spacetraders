@@ -15,15 +15,38 @@
 </template>
 
 <script>
+import {AuthService} from "@/services/authService";
+import {useAuthStore} from "@/stores/auth.store";
+
 export default {
   name: 'Login',
   methods: {
     async submit() {
-      this.$emit('agentTokenSubmit', this.token);
+      try {
+        const response = await AuthService.getAgent(this.token);
+        if(response.error) {
+          console.log(`got error: `,response)
+          this.$emit('error', response.error.message);
+          return;
+        }
+        if(response.data) {
+          this.authStore.token = this.token;
+          this.authStore.agent = response.data.data;
+          this.$emit('agentTokenSubmit', this.token);
+          return;
+        }
+      }
+      catch (error) {
+        console.log(error);
+        this.$emit('error', error.message);
+        return;
+      }
+      this.$emit('error', "Invalid token");
     },
   },
   data() {
     return {
+      authStore: useAuthStore(),
       token: '',
     };
   },
