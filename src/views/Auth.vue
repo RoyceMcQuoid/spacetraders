@@ -3,7 +3,10 @@
     <div v-if="showAuthOptions">
       <h1 style="text-align: center;">Let's get started!</h1>
       <div class="flex">
-        <Login @agentTokenSubmit="getAgent"/>
+        <Login
+          @loggedIn="loggedIn"
+          @error="handleError"
+        />
         <h1>Or</h1>
         <Register @agentRegisterSubmit="registerAgent"/>
       </div>
@@ -35,12 +38,13 @@ export default {
   title: 'StarTraders',
   components: {Register, Login},
   methods: {
-    async getAgent(token) {
-      await this.authStore.getAgent(token);
-      if(this.authStore.agentToken){
-        this.showAuthOptions = false;
-        this.showLoginMessage = true;
-      }
+    loggedIn() {
+      this.errorMessage = null;
+      this.showAuthOptions = false;
+      this.showLoginMessage = true;
+    },
+    handleError(error) {
+      this.errorMessage = error;
     },
     async registerAgent(registerData) {
       await this.authStore.registerAgent(
@@ -57,6 +61,7 @@ export default {
     return {
       authStore: useAuthStore(),
       errorMessage: null,
+      devMessage: null,
       message: '',
       showAuthOptions: true,
       showRegisterMessage: false,

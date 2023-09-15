@@ -25,19 +25,18 @@ export default {
       try {
         const response = await AuthService.getAgent(this.token);
         if(response.error) {
-          console.log(`got error: `,response)
           this.$emit('error', response.error.message);
           return;
         }
         if(response.data) {
           this.authStore.token = this.token;
           this.authStore.agent = response.data.data;
-          this.$emit('agentTokenSubmit', this.token);
+          this.$emit('loggedIn', this.token);
           return;
         }
       }
       catch (error) {
-        console.log(error);
+        console.log(`Errored on getAgent: `, error);
         this.$emit('error', error.message);
         return;
       }
