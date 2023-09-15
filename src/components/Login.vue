@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
 import {ref} from "vue";
+import {API} from "@/api";
 
 const emit = defineEmits(['loggedIn', 'error']);
 const authStore = useAuthStore();
@@ -25,7 +25,7 @@ const token = ref<string>('');
 
 async function submit() {
   try {
-    const response = await AuthService.getAgent(token.value);
+    const response = await API.getAgent(token.value);
     if(response.data.error) {
       emit('error', response.data.error.message);
       return;

@@ -23,10 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import {AuthService} from "@/services/authService";
 import {useAuthStore} from "@/stores/auth.store";
 import {ref} from "vue";
 import {FactionSymbol} from "@/models/Faction";
+import {API} from "@/api";
 
 const emit = defineEmits(['registered', 'error']);
 const authStore = useAuthStore();
@@ -40,7 +40,10 @@ function changeFaction(event: any) {
 
 async function submit() {
   try {
-    const response = await AuthService.registerAgent(symbol.value, faction.value);
+    const response = await API.registerAgent({
+      symbol: symbol.value,
+      faction: faction.value
+    });
     if(response.data.error) {
       emit('error', response.data.error.message);
       return;
