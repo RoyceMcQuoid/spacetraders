@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
-import type {Faction} from "@/constants/factions";
 import {AuthService} from "@/services/authService";
 import type {Agent} from "@/models/Agent";
+import type {FactionSymbol} from "@/models/Faction";
 
 export interface AuthState {
   agentToken: string | null
   agent: Agent | null
   contracts: any[] | null
-  faction: Faction | null
+  faction: FactionSymbol | null
   ships: any[] | null
 }
 
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
     ships: null
   }),
   actions: {
-    async registerAgent(symbol: string, faction: Faction) {
+    async registerAgent(symbol: string, faction: FactionSymbol) {
       try {
         const response = await AuthService.registerAgent(symbol, faction);
         if(response.data) {
