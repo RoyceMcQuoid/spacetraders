@@ -5,4 +5,7 @@ export const API = {
     return GET('my/agent', {"Authorization": `Bearer ${token}`})
   },
   registerAgent: (params: {faction: string, symbol: string}) => POST('register', params, {}),
+  getShipList: (token: string) => {
+    return GET('my/ships', {"Authorization": `Bearer ${token}`})
+  },
 }

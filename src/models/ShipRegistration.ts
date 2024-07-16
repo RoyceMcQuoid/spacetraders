@@ -1,6 +1,5 @@
 import {FactionSymbol} from "@/models/Faction";
-import {ShipRole} from "@/models/Ship";
-
+import {ShipRole} from "@/constants/ShipRoles";
 
 export interface ShipRegistration {
   name: string,
