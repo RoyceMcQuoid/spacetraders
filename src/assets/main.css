@@ -35,11 +35,21 @@ a,
 }
 
 .box {
-  outline: 5px solid #00bd7e;
-  margin: 10px;
+  margin: 15px;
   padding: 16px;
   border-radius: 3px;
+
 }
+
+.green-outline {
+  outline: 5px solid #00bd7e;
+}
+
+.black-outline {
+  outline: 5px solid black;
+}
+
+.
 
 .error-text {
   color: red;

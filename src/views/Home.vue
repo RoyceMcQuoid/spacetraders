@@ -1,7 +1,7 @@
 <template>
   <main>
     <div>
-      Home {{ agentName }}
+      Home
       <ShipList />
     </div>
   </main>
@@ -17,12 +17,6 @@ import ShipList from "@/components/ShipList.vue";
 const authStore = useAuthStore();
 const agentName = computed<string | null>(() => authStore.agent.symbol);
 const ships = computed<Ship[] | null>(() => authStore.ships);
-
-//TODO: loadships
-//TODO: make component to show ship list
-//TODO: display ship list component in home
-
-
 
 const loadShips = async () => {
   if (!ships.value && authStore.agentToken) {

@@ -1,7 +1,10 @@
 <template>
-  <div v-for="ship in ships" class="box">
-    <ShipDetail :ship="ship"/>
-    <div>{{ship.registration.name}}</div>
+  <div class="box black-outline">
+    <h2>Ships</h2>
+    <div v-for="ship in ships" class="box green-outline">
+      <ShipDetail :ship="ship"/>
+      <div>{{ ship.registration.name }}</div>
+    </div>
   </div>
 </template>
 
