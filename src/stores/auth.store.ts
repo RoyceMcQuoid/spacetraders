@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type {Agent} from "@/models/Agent";
 import type {FactionSymbol} from "@/models/Faction";
+import {API} from "@/api";
 
 export interface AuthState {
   agentToken: string | null
@@ -18,6 +19,21 @@ export const useAuthStore = defineStore('auth', {
     faction: null,
     ships: null
   }),
-  actions: {}
+  actions: {
+    async loadShips() {
+      console.log('loading ships 1');
+      if(this.agentToken) {
+        try {
+          const result = await API.getShipList(this.agentToken);
+          console.log('result', result);
+          if (result.data) {
+            this.ships = result.data.data;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+  }
 
 });

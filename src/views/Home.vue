@@ -20,15 +20,7 @@ const ships = computed<Ship[] | null>(() => authStore.ships);
 
 const loadShips = async () => {
   if (!ships.value && authStore.agentToken) {
-    try {
-      const result = await API.getShipList(authStore.agentToken);
-      console.log('result', result);
-      if (result.data) {
-        authStore.ships = result.data.data;
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    await authStore.loadShips();
   }
 };
 
