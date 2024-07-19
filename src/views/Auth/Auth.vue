@@ -23,7 +23,7 @@
       </div>
     </div>
     <div v-if="showLoginMessage">
-      <h1>Welcome back Agent {{ agentName }}.</h1>
+      <h1>{{ AUTH.WELCOME_BACK_MESSAGE }} {{ agentName }}.</h1>
     </div>
     <div v-if="showRegisterMessage || showLoginMessage" >
       <button
